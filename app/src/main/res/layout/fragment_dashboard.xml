@@ -43,14 +43,33 @@
         android:src="@drawable/empty"
         android:layout_height="match_parent" />
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
+        android:id="@+id/btnNews"
+        android:src="@drawable/baseline_newspaper_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/btnProfile"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
         android:id="@+id/btnAddNews"
+        android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_height="wrap_content" />
-
 
 
 
