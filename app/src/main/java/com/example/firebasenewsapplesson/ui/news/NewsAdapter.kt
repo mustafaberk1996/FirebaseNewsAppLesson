@@ -11,12 +11,14 @@ import com.example.firebasenewsapplesson.databinding.UserListItemBinding
 
 class NewsAdapter(
     private val context: Context,
-    private val news: List<News>
+    private val newsAdapterModels: List<NewsAdapterModel>,
+    private val onEditClick:(news:News)->Unit
 ) : RecyclerView.Adapter<NewsAdapter.CustomViewHolder>() {
 
     class CustomViewHolder(binding: NewsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvTitle = binding.tvTitle
-        val tvContent =binding.tvContent
+        val tvContent = binding.tvContent
+        val ivEdit = binding.ivEdit
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -26,14 +28,17 @@ class NewsAdapter(
     }
 
     override fun onBindViewHolder(holder:CustomViewHolder, position: Int) {
-        val news = news[position]
-        holder.tvTitle.text = news.title
-        holder.tvContent.text = news.content
+        val newsAdapterModel = newsAdapterModels[position]
+        holder.tvTitle.text = newsAdapterModel.news.title
+        holder.tvContent.text = newsAdapterModel.news.content
 
+        holder.ivEdit.setOnClickListener {
+            onEditClick(newsAdapterModel.news)
+        }
 
     }
 
     override fun getItemCount(): Int {
-        return news.size
+        return newsAdapterModels.size
     }
 }

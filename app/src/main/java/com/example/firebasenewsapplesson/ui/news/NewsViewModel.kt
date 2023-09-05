@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasenewsapplesson.data.repository.NewsRepository
 import com.example.firebasenewsapplesson.data.state.NewsListState
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
 
@@ -26,7 +28,7 @@ class NewsViewModel @Inject constructor(
             kotlin.runCatching {
                 _newsListState.value = NewsListState.Loading
                 newsRepository.getNews(editorId).also {
-                    _newsListState.value = NewsListState.Result(it)
+                    _newsListState.value = NewsListState.Result(it.map { NewsAdapterModel(it,firebaseAuth.currentUser?.uid.orEmpty()) })
                 }
             }.onFailure {
                 _newsListState.value = NewsListState.Error(it)

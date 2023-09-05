@@ -8,5 +8,6 @@ data class News(
     val content:String? = null,
     val editorId:String? = null,
     val createdAt:Timestamp = Timestamp.now(),
-    val updatedAt:Timestamp? = null
+    val updatedAt:Timestamp? = null,
+    val photos:List<String>? = null
 )
