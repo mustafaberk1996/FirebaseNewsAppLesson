@@ -22,7 +22,6 @@ class AddNewsViewModel @Inject constructor(
 ) :ViewModel() {
 
     private val _newsPhotos:MutableStateFlow<List<Uri>> = MutableStateFlow(emptyList())
-    //val newsPhotos:SharedFlow<List<Uri>> = _newsPhotos
 
     private val _addNewsState:MutableSharedFlow<AddNewsState> = MutableSharedFlow()
     val addNewsState: SharedFlow<AddNewsState> = _addNewsState
@@ -33,8 +32,7 @@ class AddNewsViewModel @Inject constructor(
                 _addNewsState.emit(AddNewsState.Loading)
                 val news =
                     News(title = title, content = content, editorId = firebaseAuth.currentUser?.uid)
-                val photos = _newsPhotos.value
-                newsRepository.addNews(news, photos)
+                newsRepository.addNews(news, _newsPhotos.value)
                 _addNewsState.emit(AddNewsState.Success)
             }.onFailure {
                 _addNewsState.emit(AddNewsState.Error(it))
@@ -44,7 +42,7 @@ class AddNewsViewModel @Inject constructor(
 
     fun setNewsPhotos(uris: List<Uri>) {
         viewModelScope.launch {
-            _newsPhotos.emit(uris)
+            _newsPhotos.value = uris
         }
     }
 
