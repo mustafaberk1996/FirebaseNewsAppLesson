@@ -23,24 +23,19 @@ class NewsRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage
 ):NewsRepository {
     override suspend fun addNews(news: News, uris: List<Uri>) {
+        println("addNews")
         firestore.collection(NEWS).add(news).addOnSuccessListener {
             it.update(mapOf("id" to it.id ))
-
-
-            //upload photo
-            //update news
-
             CoroutineScope(Dispatchers.IO).launch {
                 uploadNewsPhoto(it.id, uris)
             }
-
-
         }
     }
 
 
     private suspend fun uploadNewsPhoto(newsId: String, uris: List<Uri>) {
 
+        println("uploadNewsPhoto")
         uris.forEach {
 
             val photoId = UUID.randomUUID().toString()
@@ -50,6 +45,7 @@ class NewsRepositoryImpl @Inject constructor(
                     CoroutineScope(Dispatchers.IO).launch {
                         val downloadUrl = it.result.storage.downloadUrl.await()
                         firestore.collection(NEWS).document(newsId).update("photos",FieldValue.arrayUnion(downloadUrl))
+                        println("GotDownloadUrl")
                     }
                 }
 
